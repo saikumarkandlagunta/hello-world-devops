@@ -1,0 +1,321 @@
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mnew file mode 100644[m
+[1mindex 0000000..1885fee[m
+[1m--- /dev/null[m
+[1m+++ b/.gitignore[m
+[36m@@ -0,0 +1,5 @@[m
+[32m+[m[32m__pycache__/[m
+[32m+[m[32m*.py[cod][m
+[32m+[m[32m.venv/[m
+[32m+[m[32mvenv/[m
+[32m+[m[32m.env[m
+[1mdiff --git a/GITHUB_DAY_TO_DAY.md b/GITHUB_DAY_TO_DAY.md[m
+[1mnew file mode 100644[m
+[1mindex 0000000..c680896[m
+[1m--- /dev/null[m
+[1m+++ b/GITHUB_DAY_TO_DAY.md[m
+[36m@@ -0,0 +1,197 @@[m
+[32m+[m[32m# Git and GitHub day-to-day lab[m
+[32m+[m
+[32m+[m[32mThis guide uses the Hello World DevOps Lab to practice the Git and GitHub commands you will use regularly. Git tracks your local files and history. GitHub hosts the shared repository and adds issues, pull requests, reviews, and workflow runs.[m
+[32m+[m
+[32m+[m[32mRun commands yourself in PowerShell. Read `git status` and inspect diffs before staging or committing.[m
+[32m+[m
+[32m+[m[32m## 1. Check your tools and set your commit identity[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgit --version[m
+[32m+[m[32mgh --version[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mIf `gh` is installed, sign in through its browser-based flow and check the result:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgh auth login[m
+[32m+[m[32mgh auth status[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mSet the name and email Git will put on your commits. Replace the example values. If you want to avoid publishing your personal email in commits, use the GitHub-provided noreply address shown in your GitHub email settings.[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgit config --global user.name "Your Name"[m
+[32m+[m[32mgit config --global user.email "you@example.com"[m
+[32m+[m[32mgit config --global --list[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32m## 2. Make the first local commit[m
+[32m+[m
+[32m+[m[32mMove into this project folder:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mcd "C:\Users\saiku\Documents\Codex\2026-11-03\le\opslab"[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mInitialize the repository and inspect it:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgit init -b main[m
+[32m+[m[32mgit status[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mStage the project files, inspect exactly what will be committed, then commit:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgit add README.md GITHUB_DAY_TO_DAY.md app.py requirements.txt .gitignore[m
+[32m+[m[32mgit status[m
+[32m+[m[32mgit diff --cached[m
+[32m+[m[32mgit commit -m "Initialize Hello World web app"[m
+[32m+[m[32mgit log --oneline[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mKey idea: `git add` stages the changes; `git commit` saves the staged snapshot to local history. A commit does not upload anything to GitHub.[m
+[32m+[m
+[32m+[m[32m## 3. Create the GitHub remote and push[m
+[32m+[m
+[32m+[m[32mOn GitHub, create a **private** repository named `hello-world-devops`. Leave it empty: do not initialize it with a README, license, or `.gitignore`, since those files already exist locally.[m
+[32m+[m
+[32m+[m[32mConnect your local repository and publish its `main` branch:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgit remote add origin https://github.com/YOUR-USERNAME/hello-world-devops.git[m
+[32m+[m[32mgit remote -v[m
+[32m+[m[32mgit push -u origin main[m
+[32m+[m[32mgh repo view --web[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mReplace `YOUR-USERNAME` with your GitHub username. `origin` is the conventional name for the remote. `-u` records which remote branch this local branch tracks, so later `git push` and `git pull` can omit the remote and branch names.[m
+[32m+[m
+[32m+[m[32m## 4. The normal change, branch, and pull request loop[m
+[32m+[m
+[32m+[m[32mFirst, sync `main` and create a short-lived branch for one change:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgit switch main[m
+[32m+[m[32mgit pull --ff-only[m
+[32m+[m[32mgit switch -c docs/improve-setup-guide[m
+[32m+[m[32mgit status[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mMake a small change to `README.md` in your editor. Review it before staging:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgit diff[m
+[32m+[m[32mgit status[m
+[32m+[m[32mgit add -p README.md[m
+[32m+[m[32mgit diff --cached[m
+[32m+[m[32mgit commit -m "Improve local setup instructions"[m
+[32m+[m[32mgit push -u origin docs/improve-setup-guide[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32m`git add -p` lets you stage selected parts of a file. This is useful when one file contains both relevant and unrelated changes.[m
+[32m+[m
+[32m+[m[32mOpen a pull request and inspect it:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgh pr create --fill[m
+[32m+[m[32mgh pr status[m
+[32m+[m[32mgh pr view[m
+[32m+[m[32mgh pr diff[m
+[32m+[m[32mgh pr checks[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mOn your first pull request, GitHub may ask you to choose the base and compare branches or enter a title and description. Review the diff on GitHub, wait for required checks, and merge it there or with `gh pr merge --squash` if you are ready. Do not use `--admin` to bypass required checks.[m
+[32m+[m
+[32m+[m[32mAfter merging, update local `main` and remove the finished local branch:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgit switch main[m
+[32m+[m[32mgit pull --ff-only[m
+[32m+[m[32mgit branch -d docs/improve-setup-guide[m
+[32m+[m[32mgit branch -vv[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32m## 5. Common GitHub CLI commands[m
+[32m+[m
+[32m+[m[32mIssues:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgh issue list[m
+[32m+[m[32mgh issue view 1[m
+[32m+[m[32mgh issue create[m
+[32m+[m[32mgh issue close 1[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mPull requests:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgh pr list[m
+[32m+[m[32mgh pr status[m
+[32m+[m[32mgh pr view 1[m
+[32m+[m[32mgh pr diff 1[m
+[32m+[m[32mgh pr checks 1[m
+[32m+[m[32mgh pr review 1[m
+[32m+[m[32mgh pr update-branch[m
+[32m+[m[32mgh pr merge 1 --squash[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mRepository and automation runs:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgh repo view[m
+[32m+[m[32mgh run list[m
+[32m+[m[32mgh run view RUN_ID[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mReplace example issue, PR, and run numbers with real ones. `gh pr review` has interactive options; inspect `gh pr review --help` before submitting a review.[m
+[32m+[m
+[32m+[m[32m## 6. Inspect, compare, and recover[m
+[32m+[m
+[32m+[m[32mUseful inspection commands:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgit status --short[m
+[32m+[m[32mgit log --oneline --graph --decorate --all[m
+[32m+[m[32mgit show COMMIT_ID[m
+[32m+[m[32mgit diff[m
+[32m+[m[32mgit diff --staged[m
+[32m+[m[32mgit branch -a[m
+[32m+[m[32mgit remote -v[m
+[32m+[m[32mgit fetch origin[m
+[32m+[m[32mgit status -sb[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32m`git fetch` downloads remote information without merging it into your current branch. `git pull` fetches and then integrates the tracked remote branch. Use `git pull --ff-only` when you want Git to stop instead of creating an unexpected merge commit.[m
+[32m+[m
+[32m+[m[32mRecover from common mistakes:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mgit restore --staged README.md[m
+[32m+[m[32mgit stash push -m "work in progress"[m
+[32m+[m[32mgit stash list[m
+[32m+[m[32mgit stash pop[m
+[32m+[m[32mgit revert COMMIT_ID[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32m- `git restore --staged` unstages a file but keeps your edits.[m
+[32m+[m[32m- `git stash` temporarily shelves uncommitted changes; `git stash pop` reapplies them.[m
+[32m+[m[32m- `git revert` creates a new commit that reverses an earlier commit, which is safer for changes already shared with others.[m
+[32m+[m[32m- `git restore README.md` discards unstaged edits to that file. Use it only when you are sure you do not need those edits.[m
+[32m+[m
+[32m+[m[32mWe will learn `reset`, rebasing, conflict resolution, tags, releases, and GitHub Actions in separate exercises. Avoid `git reset --hard` while learning: it can permanently discard local work.[m
+[32m+[m
+[32m+[m[32m## Day-to-day command map[m
+[32m+[m
+[32m+[m[32m| Task | Commands to reach for |[m
+[32m+[m[32m|---|---|[m
+[32m+[m[32m| Check what changed | `git status`, `git diff` |[m
+[32m+[m[32m| Stage and save work | `git add -p`, `git diff --staged`, `git commit` |[m
+[32m+[m[32m| Start or change branches | `git switch -c`, `git switch`, `git branch` |[m
+[32m+[m[32m| Sync with GitHub | `git fetch`, `git pull --ff-only`, `git push` |[m
+[32m+[m[32m| Review shared work | `gh pr list`, `gh pr view`, `gh pr diff`, `gh pr checks` |[m
+[32m+[m[32m| Track work | `gh issue list`, `gh issue view`, `gh issue create` |[m
+[32m+[m[32m| Recover safely | `git restore --staged`, `git stash`, `git revert` |[m
+[32m+[m
+[32m+[m
+[1mdiff --git a/README.md b/README.md[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8f81b1a[m
+[1m--- /dev/null[m
+[1m+++ b/README.md[m
+[36m@@ -0,0 +1,70 @@[m
+[32m+[m[32m# Hello World DevOps Lab[m
+[32m+[m
+[32m+[m[32mA tiny, familiar web app for learning GitHub and AWS DevOps work. It serves `Hello, world!` at `/` and returns a simple health response from `/health`.[m
+[32m+[m
+[32m+[m[32mWe will use this same app as the workload while learning source control, Linux and networking, EC2, containers, ECR, ECS, deployments, and monitoring. The first version runs locally and listens only on your computer.[m
+[32m+[m
+[32m+[m[32m## What you need[m
+[32m+[m
+[32m+[m[32m- Python 3.10 or newer[m
+[32m+[m[32m- PowerShell[m
+[32m+[m[32m- Git[m
+[32m+[m[32m- GitHub CLI (`gh`) for the GitHub command exercises[m
+[32m+[m
+[32m+[m[32m## Run it manually in PowerShell[m
+[32m+[m
+[32m+[m[32mOpen PowerShell in this project folder and check Python:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mpython --version[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mCreate and activate a virtual environment. This keeps the project's Python packages separate from other projects:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mpython -m venv .venv[m
+[32m+[m[32m.\.venv\Scripts\Activate.ps1[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mIf PowerShell blocks activation, use the environment's Python directly:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32m.\.venv\Scripts\python.exe -m pip install -r requirements.txt[m
+[32m+[m[32m.\.venv\Scripts\python.exe app.py[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mOtherwise, install the dependency and start the app:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mpython -m pip install -r requirements.txt[m
+[32m+[m[32mpython app.py[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mKeep that terminal open. The server listens only on your computer at `http://127.0.0.1:5000`.[m
+[32m+[m
+[32m+[m[32m## Try the app from a second PowerShell window[m
+[32m+[m
+[32m+[m[32mOpen the home page:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mInvoke-RestMethod http://127.0.0.1:5000/[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mCheck health:[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mInvoke-RestMethod http://127.0.0.1:5000/health[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32mStop the server with `Ctrl+C` in the terminal where it is running.[m
+[32m+[m
+[32m+[m[32m## Git and GitHub practice[m
+[32m+[m
+[32m+[m[32mFollow [GITHUB_DAY_TO_DAY.md](GITHUB_DAY_TO_DAY.md) for the hands-on command guide, including local Git, GitHub CLI, branches, issues, pull requests, and safe recovery.[m
+[32m+[m
+[32m+[m[32m## What to notice[m
+[32m+[m
+[32m+[m[32m- `/` is the familiar Hello World page.[m
+[32m+[m[32m- `/health` returns a small JSON response suitable for a basic health check.[m
+[32m+[m[32m- The server prints request information in its terminal; those messages are the first logs you can inspect.[m
+[32m+[m[32m- The server binds to `127.0.0.1`, so it is not exposed to your network.[m
+[1mdiff --git a/app.py b/app.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..c0e5727[m
+[1m--- /dev/null[m
+[1m+++ b/app.py[m
+[36m@@ -0,0 +1,18 @@[m
+[32m+[m[32mfrom flask import Flask, jsonify[m
+[32m+[m
+[32m+[m[32mapp = Flask(__name__)[m
+[32m+[m
+[32m+[m
+[32m+[m[32m@app.get("/")[m
+[32m+[m[32mdef hello_world():[m
+[32m+[m[32m    return "Hello, world!\n", 200, {"Content-Type": "text/plain; charset=utf-8"}[m
+[32m+[m
+[32m+[m
+[32m+[m[32m@app.get("/health")[m
+[32m+[m[32mdef health():[m
+[32m+[m[32m    return jsonify(status="ok"), 200[m
+[32m+[m
+[32m+[m
+[32m+[m[32mif __name__ == "__main__":[m
+[32m+[m[32m    # Keep the first version local-only. Later, we will configure a network-facing host.[m
+[32m+[m[32m    app.run(host="127.0.0.1", port=5000, debug=False)[m
+[1mdiff --git a/requirements.txt b/requirements.txt[m
+[1mnew file mode 100644[m
+[1mindex 0000000..840d434[m
+[1m--- /dev/null[m
+[1m+++ b/requirements.txt[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mFlask>=3.0,<4.0[m
